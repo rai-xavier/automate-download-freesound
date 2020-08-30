@@ -304,6 +304,12 @@ def parse_args(argv):
                         help='Enter True if you want to initiate advanced filtering to limit audio files. '
                              'Only audio files with tags, filenames, and descriptions '
                              'containing your search item will be downloaded.')
+                             
+    parser.add_argument('--license',
+                        dest='license',
+                        type=str,
+                        default=None,
+                        help='Enter the desired license.')
 
     # If no arguments provided, return help message
     if len(argv) == 1:
