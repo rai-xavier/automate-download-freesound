@@ -185,11 +185,17 @@ def simulate_download(sound, download_path, user, pass_w, args):
     :return: count of number of downloads
     '''
     full_path = os.path.join(download_path, sound)
-
+    if args.samplerate is not None:
+        full_path = full_path + ' SampleRate ' + args.samplerate
+    if args.file_format is not None:
+        full_path = full_path + ' FileFormat ' + args.file_format
+    if args.license is not None:
+        full_path = full_path + ' License '+  args.license
+            
     if not os.path.exists(full_path):
         # make a directory for the files to go to
         os.makedirs(full_path)
-
+    
     download_count = 0
     driver = setup(full_path)
     search_subject = sound
@@ -202,6 +208,8 @@ def simulate_download(sound, download_path, user, pass_w, args):
             driver = filter_by_attribute(driver, 'samplerate', args.samplerate)
         if args.file_format is not None:
             driver = filter_by_attribute(driver, 'fileformat', args.file_format)
+        if args.license is not None:
+            driver = filter_by_attribute(driver, 'license', args.license)
 
         if args.advanced_filter:
             # Advanced search for only search subject in tags or file name
@@ -329,6 +337,7 @@ def main(argv):
     if not os.path.exists(download_path):
         print("The download destination directory specified does not exist... Defaulting to Downloads folder.")
         download_path = os.path.expanduser("~") + "/Downloads/"
+        # download_path = 
 
     user_info = authenticate()
     credentials_flag = verify_authentication(user_info)
